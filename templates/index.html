@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Review Detector</title>
+</head>
+
+<body>
+
+    <h1>Fake Review Detector</h1>
+
+    <form method="POST">
+
+        <textarea
+            name="review"
+            rows="8"
+            cols="60"
+            placeholder="Enter a review here..."
+            required>{{ review }}</textarea>
+
+        <br><br>
+
+        <button type="submit">Analyze Review</button>
+
+    </form>
+
+    {% if result %}
+
+        <h2>Analysis Result</h2>
+
+        <p>
+            <strong>Fake Probability:</strong>
+            {{ "%.4f"|format(result["fake_probability"]) }}
+        </p>
+
+        <p>
+            <strong>AI Likelihood Score:</strong>
+            {{ "%.4f"|format(result["ai_likelihood_score"]) }}
+        </p>
+
+        <p>
+            <strong>Verdict:</strong>
+            {{ result["verdict"] }}
+        </p>
+
+    {% endif %}
+
+</body>
+</html>
