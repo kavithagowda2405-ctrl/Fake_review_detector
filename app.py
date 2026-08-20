@@ -95,7 +95,10 @@ def batch():
             'pct_fake': round((df['verdict'] != 'Likely Real').mean() * 100, 1)
         }
 
-        results_table = df[[text_col, 'fake_probability', 'ai_likelihood_score', 'verdict']].to_dict('records')
+        df_display = df[[text_col, 'fake_probability', 'ai_likelihood_score', 'verdict']].rename(
+            columns={text_col: 'text'}
+        )
+        results_table = df_display.to_dict('records')
 
     return render_template('batch.html', summary=summary, results=results_table)
 
