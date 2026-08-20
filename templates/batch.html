@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Batch Review Analysis</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 50px auto; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 13px; }
+        th { background: #333; color: white; }
+        .summary { background: #f0f0f0; padding: 15px; border-radius: 5px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Batch Review Analysis</h1>
+    <p>Upload a CSV file with a column named "text" containing reviews to check.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="csv_file" accept=".csv" required>
+        <button type="submit">Analyze Batch</button>
+    </form>
+
+    {% if error %}
+    <div style="background: #ffe0e0; border: 1px solid #ff6b6b; padding: 12px; border-radius: 5px; margin-top: 15px;">
+        <strong>⚠ {{ error }}</strong>
+    </div>
+    {% endif %}
+
+    {% if summary %}
+    <div class="summary">
+        <h3>Summary</h3>
+        <p>Total reviews: {{ summary.total }}</p>
+        <p>Likely fake: {{ summary.likely_fake }} ({{ summary.pct_fake }}%)</p>
+        <p>Likely real: {{ summary.likely_real }}</p>
+    </div>
+
+    <table>
+        <tr><th>Review (preview)</th><th>Fake %</th><th>AI %</th><th>Verdict</th></tr>
+        {% for row in results %}
+        <tr>
+            <td>{{ row.text[:80] }}...</td>
+            <td>{{ row.fake_probability }}%</td>
+            <td>{{ row.ai_likelihood_score }}%</td>
+            <td>{{ row.verdict }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+
+    <p><a href="/">← Back to single review checker</a></p>
+</body>
+</html>

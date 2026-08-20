@@ -33,12 +33,13 @@
 <body>
     <h1>Fake Review Detector</h1>
     <p>Paste a product or hotel review to check if it's real, fake, or AI-generated.</p>
+    <p><a href="/batch">Try batch mode (upload CSV) →</a></p>
 
     <form method="POST">
         <textarea name="review_text" placeholder="Paste a review here..." required>{{ result.text if result else '' }}</textarea><br>
         <div class="btn-container">
             <button type="submit">Analyze Review</button>
-            <a href="/" class="clear-btn">Clear / New Review</a>
+            <a href="/" class="clear-btn">Clear</a>
         </div>
     </form>
 
