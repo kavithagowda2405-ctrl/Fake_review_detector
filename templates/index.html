@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fake Review Detector</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
+        textarea { width: 100%; height: 120px; padding: 10px; font-size: 14px; }
+        button { padding: 10px 20px; background: #333; color: white; border: none; cursor: pointer; margin-top: 10px; }
+        .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
+        .real { background: #e0ffe0; border: 1px solid #6bff6b; }
+        .fake-human { background: #fff3cd; border: 1px solid #ffc107; }
+        .fake-ai { background: #ffe0e0; border: 1px solid #ff6b6b; }
+        .metric { margin: 8px 0; }
+        .bar-bg { background: #ddd; border-radius: 4px; height: 12px; width: 100%; }
+        .bar-fill { background: #555; border-radius: 4px; height: 12px; }
+    </style>
+</head>
+<body>
+    <h1>Fake Review Detector</h1>
+    <p>Paste a product or hotel review to check if it's real, fake, or AI-generated.</p>
+
+    <form method="POST">
+        <textarea name="review_text" placeholder="Paste a review here..." required>{{ result.text if result else '' }}</textarea><br>
+        <button type="submit">Analyze Review</button>
+    </form>
+
+    {% if result %}
+    <div class="result
+        {% if 'AI-generated' in result.verdict %}fake-ai
+        {% elif 'Fake' in result.verdict %}fake-human
+        {% else %}real{% endif %}">
+        <h3>Verdict: {{ result.verdict }}</h3>
+
+        <div class="metric">
+            <p>Fake probability: {{ result.fake_probability }}%</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: {{ result.fake_probability }}%;"></div></div>
+        </div>
+
+        <div class="metric">
+            <p>AI-generation likelihood: {{ result.ai_likelihood_score }}%</p>
+            <div class="bar-bg"><div class="bar-fill" style="width: {{ result.ai_likelihood_score }}%;"></div></div>
+        </div>
+    </div>
+    {% endif %}
+</body>
+</html>
