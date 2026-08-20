@@ -4,15 +4,30 @@
     <title>Fake Review Detector</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; padding: 20px; }
-        textarea { width: 100%; height: 120px; padding: 10px; font-size: 14px; }
-        button { padding: 10px 20px; background: #333; color: white; border: none; cursor: pointer; margin-top: 10px; }
+        textarea { width: 100%; height: 120px; padding: 10px; font-size: 14px; box-sizing: border-box; }
+        .btn-container { margin-top: 10px; }
+        button, .clear-btn { 
+            padding: 10px 20px; 
+            background: #333; 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .clear-btn { background: #666; margin-left: 8px; }
+        .clear-btn:hover { background: #444; }
+        button:hover { background: #000; }
+        
         .result { margin-top: 20px; padding: 15px; border-radius: 5px; }
         .real { background: #e0ffe0; border: 1px solid #6bff6b; }
         .fake-human { background: #fff3cd; border: 1px solid #ffc107; }
         .fake-ai { background: #ffe0e0; border: 1px solid #ff6b6b; }
-        .metric { margin: 8px 0; }
+        .metric { margin: 15px 0; }
         .bar-bg { background: #ddd; border-radius: 4px; height: 12px; width: 100%; }
-        .bar-fill { background: #555; border-radius: 4px; height: 12px; }
+        .bar-fill-green { background: #28a745; border-radius: 4px; height: 12px; }
     </style>
 </head>
 <body>
@@ -21,7 +36,10 @@
 
     <form method="POST">
         <textarea name="review_text" placeholder="Paste a review here..." required>{{ result.text if result else '' }}</textarea><br>
-        <button type="submit">Analyze Review</button>
+        <div class="btn-container">
+            <button type="submit">Analyze Review</button>
+            <a href="/" class="clear-btn">Clear / New Review</a>
+        </div>
     </form>
 
     {% if result %}
@@ -31,14 +49,20 @@
         {% else %}real{% endif %}">
         <h3>Verdict: {{ result.verdict }}</h3>
 
+        <!-- Authenticity Metrics (Real vs. Fake) -->
         <div class="metric">
-            <p>Fake probability: {{ result.fake_probability }}%</p>
-            <div class="bar-bg"><div class="bar-fill" style="width: {{ result.fake_probability }}%;"></div></div>
+            <p><strong>Authenticity:</strong> Real {{ result.real_probability }}% | Fake {{ result.fake_probability }}%</p>
+            <div class="bar-bg">
+                <div class="bar-fill-green" style="width: {{ result.real_probability }}%;"></div>
+            </div>
         </div>
 
+        <!-- Origin Metrics (Human vs. AI) -->
         <div class="metric">
-            <p>AI-generation likelihood: {{ result.ai_likelihood_score }}%</p>
-            <div class="bar-bg"><div class="bar-fill" style="width: {{ result.ai_likelihood_score }}%;"></div></div>
+            <p><strong>Source:</strong> Human {{ result.human_likelihood_score }}% | AI {{ result.ai_likelihood_score }}%</p>
+            <div class="bar-bg">
+                <div class="bar-fill-green" style="width: {{ result.human_likelihood_score }}%;"></div>
+            </div>
         </div>
     </div>
     {% endif %}

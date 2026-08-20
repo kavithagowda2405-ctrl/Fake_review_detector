@@ -10,10 +10,15 @@ def index():
         review_text = request.form['review_text']
         analysis = analyze_review(review_text)
 
+        fake_prob = round(analysis['fake_probability'] * 100, 2)
+        ai_prob = round(analysis['ai_likelihood_score'] * 100, 2)
+
         result = {
             'text': review_text,
-            'fake_probability': round(analysis['fake_probability'] * 100, 2),
-            'ai_likelihood_score': round(analysis['ai_likelihood_score'] * 100, 2),
+            'fake_probability': fake_prob,
+            'real_probability': round(100 - fake_prob, 2),
+            'ai_likelihood_score': ai_prob,
+            'human_likelihood_score': round(100 - ai_prob, 2),
             'verdict': analysis['verdict']
         }
 
