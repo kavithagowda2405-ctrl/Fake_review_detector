@@ -1,21 +1,13 @@
 import pandas as pd
-from collections import Counter
-from ai_text_detector import score_ai_likelihood
+from ai_text_detector import score_ai_likelihood, score_breakdown
 
-# ---- 1. Build word_freq the same way ai_text_detector.py does ----
-df_corpus = pd.read_csv("Data/cleaned_reviews.csv")
-all_words = ' '.join(df_corpus['cleaned_text'].fillna('')).split()
-word_freq = Counter(all_words)
-total_words = sum(word_freq.values())
-word_freq = {w: c / total_words for w, c in word_freq.items()}
-
-# ---- 2. Load validation set ----
+# ---- 1. Load validation set (from Issue #22) ----
 df = pd.read_csv("Data/ai_validation_set.csv")
 
-# ---- 3. Score every review ----
-df["ai_score"] = df["text"].apply(lambda x: score_ai_likelihood(x, word_freq))
+# ---- 2. Score every review using the new 4-category detector ----
+df["ai_score"] = df["text"].apply(lambda x: score_ai_likelihood(x))
 
-# ---- 4. Split into groups ----
+# ---- 3. Split into groups ----
 ai_scores = df[df["is_ai_generated"] == 1]["ai_score"]
 human_scores = df[df["is_ai_generated"] == 0]["ai_score"]
 
@@ -28,7 +20,25 @@ print(f"Separation (AI avg - Human avg)      : {ai_scores.mean() - human_scores.
 print(f"\nAI-labeled score range   : {ai_scores.min():.4f} - {ai_scores.max():.4f}")
 print(f"Human-labeled score range: {human_scores.min():.4f} - {human_scores.max():.4f}")
 
+# ---- 4. Category-level breakdown (shows WHICH markers actually separate the groups) ----
+print("\n=== Category-level breakdown ===")
+breakdowns = df["text"].apply(score_breakdown)
+df["lexical_score"] = breakdowns.apply(lambda b: b["lexical_score"])
+df["syntactic_score"] = breakdowns.apply(lambda b: b["syntactic_score"])
+df["structural_score"] = breakdowns.apply(lambda b: b["structural_score"])
+df["semantic_score"] = breakdowns.apply(lambda b: b["semantic_score"])
+
+for category in ["lexical_score", "syntactic_score", "structural_score", "semantic_score"]:
+    ai_avg = df[df["is_ai_generated"] == 1][category].mean()
+    human_avg = df[df["is_ai_generated"] == 0][category].mean()
+    print(f"{category:20s} | AI avg: {ai_avg:.4f} | Human avg: {human_avg:.4f} | Separation: {ai_avg - human_avg:+.4f}")
+
+# ---- 5. Per-sample scores ----
 print("\n=== Per-sample scores ===")
 for _, row in df.iterrows():
     label = "AI" if row["is_ai_generated"] == 1 else "Human"
     print(f"[{label}] {row['ai_score']:.4f} | {row['text'][:60]}...")
+
+# ---- 6. Save results for report evidence ----
+df.to_csv("Data/ai_validation_results.csv", index=False)
+print("\nSaved detailed results to Data/ai_validation_results.csv")

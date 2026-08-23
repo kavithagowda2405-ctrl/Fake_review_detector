@@ -25,21 +25,20 @@ def index():
 
     return render_template('index.html', result=result)
 
+
 @app.route('/batch', methods=['GET', 'POST'])
 def batch():
     summary = None
     results_table = None
-    error =  None
+    error = None
 
     if request.method == 'POST':
-        file = request.files['csv_file']
+        file = request.files.get('csv_file')
 
-     # Check 1: no file selected
         if not file or file.filename == '':
             error = "No file selected. Please choose a CSV file to upload."
             return render_template('batch.html', summary=summary, results=results_table, error=error)
 
-        # Check 2: wrong file type
         if not file.filename.lower().endswith('.csv'):
             error = "Invalid file type. Please upload a .csv file."
             return render_template('batch.html', summary=summary, results=results_table, error=error)
@@ -50,12 +49,10 @@ def batch():
             error = f"Could not read the CSV file. Make sure it's a valid, properly formatted CSV. ({str(e)})"
             return render_template('batch.html', summary=summary, results=results_table, error=error)
 
-        # Check 3: empty file
         if df.empty:
             error = "The uploaded CSV is empty. Please upload a file with review data."
             return render_template('batch.html', summary=summary, results=results_table, error=error)
 
-        # Check 4: find a usable text column
         possible_text_cols = ['text', 'review', 'review_text', 'Review']
         text_col = None
         for col in possible_text_cols:
@@ -63,9 +60,8 @@ def batch():
                 text_col = col
                 break
         if text_col is None:
-            text_col = df.columns[0]  # fallback to first column
+            text_col = df.columns[0]
 
-        # Check 5: drop empty/missing rows in the text column
         df = df.dropna(subset=[text_col])
         df = df[df[text_col].astype(str).str.strip() != '']
 
@@ -73,7 +69,6 @@ def batch():
             error = f"No valid review text found in column '{text_col}'. Please check your CSV content."
             return render_template('batch.html', summary=summary, results=results_table, error=error)
 
-        # Limit batch size to avoid long waits/crashes on huge files
         max_rows = 200
         if len(df) > max_rows:
             df = df.head(max_rows)
@@ -100,7 +95,8 @@ def batch():
         )
         results_table = df_display.to_dict('records')
 
-    return render_template('batch.html', summary=summary, results=results_table)
+    return render_template('batch.html', summary=summary, results=results_table, error=error)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,0 +1,21 @@
+text,is_ai_generated,ai_score,lexical_score,syntactic_score,structural_score,semantic_score
+"I recently had the pleasure of staying at this hotel, and I must say it exceeded my expectations. The staff were incredibly attentive and the amenities were top-notch. I would highly recommend this establishment to anyone seeking a comfortable and memorable experience.",1,0.687,0.676,0.765,0.0,0.0
+"This product truly delivers on its promises. From the moment I unboxed it, I could tell that quality and craftsmanship were prioritized. The design is both functional and aesthetically pleasing, making it a worthwhile investment for anyone in the market.",1,0.393,0.04,0.725,0.25,0.0
+"I am delighted to share my experience with this restaurant. The ambiance was warm and inviting, complemented by a menu that catered to a variety of tastes. The service was prompt and courteous throughout our visit.",1,0.4,0.056,0.751,0.0,0.167
+"Overall, this purchase has been an excellent addition to my daily routine. The build quality is impressive, and it performs exactly as described. I appreciate the attention to detail that went into its design and functionality.",1,0.579,0.333,0.858,0.0,0.167
+"My stay at this establishment was nothing short of exceptional. The room was clean and well-appointed, the staff went above and beyond to ensure my comfort, and the location was convenient for exploring the surrounding area.",1,0.454,0.389,0.557,0.0,0.583
+This device has significantly improved my productivity. Its intuitive interface and reliable performance make it a standout choice in its category. I would confidently recommend it to colleagues and friends alike.,1,0.407,0.039,0.779,0.0,0.032
+"I want to express my satisfaction with this service. The team demonstrated professionalism and expertise at every step, ensuring a seamless and pleasant experience from start to finish.",1,0.489,0.329,0.683,0.0,0.464
+"Having used this item for several weeks now, I can confidently say it has met all of my expectations. The materials feel durable, the design is thoughtful, and the overall value for money is excellent.",1,0.438,0.046,0.835,0.0,0.143
+"This dining establishment offers a wonderful combination of quality food and attentive service. Each dish was prepared with care, and the flavors were well-balanced, making for a truly enjoyable meal.",1,0.412,0.027,0.8,0.0,0.5
+"I highly recommend this product to anyone looking for reliability and performance. It has consistently exceeded my expectations, and the customer support team was helpful whenever I had questions.",1,0.546,0.328,0.797,0.0,0.0
+"omg this place was SO good lol we went on a whim and ended up staying way longer than planned, the fries were amazing but service was kinda slow ngl",0,0.206,0.013,0.4,0.0,0.5
+"meh. room smelled weird when we walked in, front desk guy fixed it fast tho. bed was comfy at least, kids slept great",0,0.244,0.0,0.488,0.0,1.0
+"bought this for my dad's bday, he wont stop talking about it lol. shipping took forever tho like almost 2 weeks which sucked",0,0.17,0.0,0.34,0.0,0.348
+"honestly not what i expected, box was a lil banged up but the thing inside works fine so far. will update if it breaks lol",0,0.07,0.0,0.14,0.0,1.0
+"we went here for our anniversary!! the waiter messed up our order twice but was super nice about it so we didnt mind much, dessert made up for it fr",0,0.125,0.067,0.19,0.0,1.0
+my cat knocked this off the shelf twice already and its still working somehow lol. cheap but does the job for now,0,0.203,0.018,0.39,0.0,1.0
+"stayed here bc it was close to the airport, nothing fancy but clean enough. wifi kept cutting out which was annoying during my work calls",0,0.252,0.016,0.49,0.0,1.0
+"idk why everyone hates on this place, we had a great time!! parking was a nightmare tho, took us 20 mins to find a spot",0,0.279,0.032,0.53,0.0,0.4
+got this as a gift and wasnt sure at first but its actually pretty good now that ive used it a few times. instructions were confusing af tho,0,0.026,0.014,0.04,0.0,1.0
+"food was decent, nothing special. my sister loved it more than me. we'll probably go back if were ever in the area again i guess",0,0.252,0.0,0.504,0.0,1.0

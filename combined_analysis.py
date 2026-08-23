@@ -136,16 +136,16 @@ def get_fake_probability(text: str) -> float:
 
 
 def get_ai_likelihood(text: str) -> float:
-    return float(score_ai_likelihood(text, _word_freq))
+    return float(score_ai_likelihood(text))
 
 
 def analyze_review(text: str) -> dict:
     fake_prob = get_fake_probability(text)
     ai_score = get_ai_likelihood(text)
 
-    if fake_prob > 0.5 and ai_score > 0.5:
+    if ai_score > 0.55 and fake_prob > 0.3:
         verdict = "Likely Fake (AI-generated)"
-    elif fake_prob > 0.5 and ai_score <= 0.5:
+    elif fake_prob > 0.5:
         verdict = "Likely Fake (human-written)"
     else:
         verdict = "Likely Real"
